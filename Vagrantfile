@@ -21,8 +21,12 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
+  config.vm.network "private_network", ip: "192.168.20.14"
   config.vm.network "forwarded_port", guest: 9090, host: 9090
   config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 8080, host: 8081 
+  config.vm.network "forwarded_port", guest: 22, host: 100
+
 
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--nictype1", "virtio"]
@@ -50,10 +54,19 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
-  
-    # Customize the amount of memory on the VM:
-    vb.memory = "2048"
-    vb.cpus = 1
+    vb.customize ["modifyvm", :id, "--memory", 5120]
+    vb.customize ["modifyvm", :id, "--cpus", 2]
+    vb.customize ["modifyvm", :id, "--vram", 256]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--draganddrop", "hosttoguest"]
+    # For better DNS resolution
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    # No audio
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    # For performance
+    vb.customize ["modifyvm", :id, "--usb", "off"]
+    # Huge performance gain here
+    vb.linked_clone = true if Vagrant::VERSION >= '1.8.0'
     vb.name = "Prometheus"
   end
   #
