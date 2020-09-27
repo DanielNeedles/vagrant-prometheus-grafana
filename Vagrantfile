@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/bionic64"
+  # config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "gusztavvargadr/ubuntu-desktop"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -67,7 +68,7 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--usb", "off"]
     # Huge performance gain here
     vb.linked_clone = true if Vagrant::VERSION >= '1.8.0'
-    vb.name = "Prometheus"
+    vb.name = "grafana"
   end
   #
   # View the documentation for the provider you are using for more
