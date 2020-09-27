@@ -52,6 +52,7 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
+  config.vm.hostname = "grafana"
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
@@ -68,7 +69,6 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--usb", "off"]
     # Huge performance gain here
     vb.linked_clone = true if Vagrant::VERSION >= '1.8.0'
-    vb.name = "grafana"
   end
   #
   # View the documentation for the provider you are using for more
